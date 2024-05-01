@@ -1,4 +1,4 @@
-= Database Management Commands Guide
+= Database Management Commands Guide:
 
 == Log into MariaDB as Root User
 
