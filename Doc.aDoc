@@ -1,0 +1,98 @@
+= Database Management Commands Guide
+
+== Log into MariaDB as Root User
+
+. Open your terminal.
+. Execute the following command to log in as the root user:
++
+[source,sh]
+----
+sudo mysql -u root -p
+----
+
+== Verify User Privileges
+
+. Once logged in, check the current privileges of your phpMyAdmin user:
++
+[source,sql]
+----
+SHOW GRANTS FOR 'your_phpmyadmin_user'@'localhost';
+----
+
+== Grant User Privileges
+
+. To grant all privileges:
++
+[source,sql]
+----
+GRANT ALL PRIVILEGES ON *.* TO 'your_phpmyadmin_user'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+----
++
+. To grant specific privileges necessary for database management:
++
+[source,sql]
+----
+GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT ON *.* TO 'your_phpmyadmin_user'@'localhost';
+FLUSH PRIVILEGES;
+----
+
+== Verify Changes
+
+. Confirm the new privileges:
++
+[source,sql]
+----
+SHOW GRANTS FOR 'your_phpmyadmin_user'@'localhost';
+----
+
+== Service Management
+
+. Restart MariaDB and Apache2 to apply changes:
++
+[source,sh]
+----
+sudo systemctl restart mariadb
+sudo systemctl restart apache2
+----
+
+== Change PhpMyAdmin Default Username
+
+. Execute the following command to rename the phpMyAdmin user:
++
+[source,sql]
+----
+RENAME USER 'oldusername'@'localhost' TO 'newusername'@'localhost';
+FLUSH PRIVILEGES;
+----
+. Update the phpMyAdmin configuration file:
++
+[source,sh]
+----
+sudo nano /etc/phpmyadmin/config-db.php
+----
+. Restart the Apache2 service:
++
+[source,sh]
+----
+sudo systemctl restart apache2
+----
+
+== Change Password in MariaDB
+
+. Update the password for your phpMyAdmin user:
++
+[source,sql]
+----
+ALTER USER 'your_phpmyadmin_user'@'localhost' IDENTIFIED BY 'new_password';
+FLUSH PRIVILEGES;
+----
+
+== Customize PhpMyAdmin Login URL
+
+. Edit the Apache2 configuration for phpMyAdmin:
++
+[source,sh]
+----
+sudo nano /etc/apache2/conf-available/phpmyadmin.conf
+----
